@@ -22,27 +22,20 @@ import json
 import shutil
 
 # Setup variables. Change as needed
-NAME = "mapillary"  
-VERSION = "1.0.7"
-AUTHOR = "Christopher Beddow"
-AUTHOR_EMAIL = "support@mapillary.zendesk.com"
+NAME = "pupiilclient"  
+VERSION = "0.0.9"
+AUTHOR = "Saif Ul Islam"
+AUTHOR_EMAIL = "saifulislam84210@gmail.com"
 LICENSE = "MIT"
 PLATFORM = ["POSIX", "MacOS X", "Linux", "Windows"]
 DESCRIPTION = (
-    "A Python 3 library built on the Mapillary API v4 to facilitate retrieving and "
-    "working with Mapillary data"
+    "The client package for the Pupiil project"
 )
 LONG_DESCRIPTION_CONTENT_TYPE = "text/markdown"
-URL = "https://github.com/mapillary/mapillary-python-sdk"
-REQUIRES_PYTHON = ">=3.0"
+URL = "https://github.com/Pupiil/client"
+REQUIRES_PYTHON = ">=3.6"
 HERE = os.path.abspath(os.path.dirname(__file__))
 REQUIREMENTS = [
-    "mercantile",
-    "mapbox-vector-tile",
-    "pytest",
-    "vt2geojson",
-    "shapely",
-    "turfpy",
 ]
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
@@ -66,16 +59,6 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.9",
 ]
 PROJECT_URLS = {
-    "Download": "https://pypi.org/project/mapillary/#files",
-    "Release Notes": "https://github.com/mapillary/mapillary-python-sdk/releases",
-    "Bug Tracker": "https://github.com/mapillary/mapillary-python-sdk/issues",
-    "Source": "https://github.com/mapillary/mapillary-python-sdk",
-    "Twitter": "https://twitter.com/mapillary",
-    "Developer Resources": "https://www.mapillary.com/developer",
-    "Community Forum": "https://forum.mapillary.com/",
-    "Blog": "https://blog.mapillary.com/",
-    "Facebook": "https://www.facebook.com/mapillary/",
-    "Website": "https://www.mapillary.com/",
 }
 PACKAGE_DIR = {"": "src"}
 
@@ -90,6 +73,7 @@ except FileNotFoundError:
 
 def locked_requirements(section):
     """Look through the 'Pipfile.lock' to fetch requirements by section."""
+    print(os.path.abspath('.'))
     with open("Pipfile.lock") as pip_file:
         pipfile_json = json.load(pip_file)
 
@@ -140,6 +124,42 @@ class UploadCommand(setuptools.Command):
         sys.exit()
 
 
+class TestUploadCommand(setuptools.Command):
+    """Support setup.py upload."""
+
+    description = "Build and publish the package."
+    user_options = []
+
+    @staticmethod
+    def status(s):
+        """Prints things in bold."""
+        print("\033[1m{0}\033[0m".format(s))
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        try:
+            self.status("Removing previous builds…")
+            shutil.rmtree(os.path.join(HERE, "dist"))
+        except OSError:
+            pass
+
+        self.status("Building Source and Wheel (universal) distribution…")
+        os.system(f"{sys.executable} setup.py sdist bdist_wheel --universal")
+
+        self.status("Uploading the package to Test PyPI via Twine…")
+        os.system("twine upload --repository testpypi dist/* --verbose")
+
+        self.status("Pushing git tags…")
+        os.system(f"git tag v{VERSION}")
+        os.system("git push --tags")
+
+        sys.exit()
+
 # Where the magic happens
 setuptools.setup(
     # METADATA
@@ -181,7 +201,8 @@ setuptools.setup(
     classifiers=CLASSIFIERS,
     # # What commands to run
     cmdclass={
-        "upload": UploadCommand,
+        "test_upload": TestUploadCommand,
+        "upload": UploadCommand,        
     },
     # # A dictionary mapping names of “extras” (optional features of your project) to strings or
     # # lists of strings specifying what other distributions must be installed to support those

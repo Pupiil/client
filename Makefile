@@ -12,11 +12,12 @@ local-install:
 
 ## Build the package
 build:
-	@ python3 -m build
+	# @ python3 -m build
+	@ python3 setup.py sdist bdist_wheel --universal
 
 ## Clean directory of previous build
 clean:
-	@ rm -rf dist/ src/*.egg-info
+	@ rm -rf dist/ build/ src/*.egg-info
 
 # TESTING
 
