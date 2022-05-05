@@ -4,11 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+cffi = "*"
+cryptography = "*"
+pyopenssl = "*"
+
+[dev-packages]
 twine = "*"
 build = "*"
 pytest = "*"
-
-[dev-packages]
+auto-changelog = "*"
+markupsafe = "==2.0.1"
 
 [requires]
 python_version = "3.10"
