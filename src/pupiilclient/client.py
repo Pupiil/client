@@ -5,8 +5,7 @@ import socket
 import selectors
 import traceback
 
-import lib.libclient
-from lib.MacAuxClass import MacAux
+from pupiilcommon import libclient, MacAuxClass
 
 sel = selectors.DefaultSelector()
 
@@ -22,7 +21,7 @@ def create_request(action, value):
         return dict(
             type="text/json",
             encoding="utf-8",
-            content=dict(action=action, value=MacAux().get_machine_info()),
+            content=dict(action=action, value=MacAuxClass.MacAux().get_machine_info()),
         )
     else:
         return dict(
@@ -41,7 +40,7 @@ def start_connection(host, port, request, client):
         sock.setblocking(False)
         sock.connect_ex(addr)
         events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        message = lib.libclient.Message(sel, sock, addr, request)
+        message = libclient.Message(sel, sock, addr, request)
         sel.register(sock, events, data=message)
 
 
