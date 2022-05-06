@@ -22,21 +22,18 @@ import json
 import shutil
 
 # Setup variables. Change as needed
-NAME = "pupiilclient"  
+NAME = "pupiilclient"
 VERSION = "0.0.9"
 AUTHOR = "Saif Ul Islam"
 AUTHOR_EMAIL = "saifulislam84210@gmail.com"
 LICENSE = "MIT"
 PLATFORM = ["POSIX", "MacOS X", "Linux", "Windows"]
-DESCRIPTION = (
-    "The client package for the Pupiil project"
-)
+DESCRIPTION = "The client package for the Pupiil project"
 LONG_DESCRIPTION_CONTENT_TYPE = "text/markdown"
 URL = "https://github.com/Pupiil/client"
 REQUIRES_PYTHON = ">=3.6"
 HERE = os.path.abspath(os.path.dirname(__file__))
-REQUIREMENTS = [
-]
+REQUIREMENTS = []
 CLASSIFIERS = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -58,8 +55,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
 ]
-PROJECT_URLS = {
-}
+PROJECT_URLS = {}
 PACKAGE_DIR = {"": "src"}
 
 # Import the README and use it as the long-description.
@@ -73,7 +69,7 @@ except FileNotFoundError:
 
 def locked_requirements(section):
     """Look through the 'Pipfile.lock' to fetch requirements by section."""
-    print(os.path.abspath('.'))
+    print(os.path.abspath("."))
     with open("Pipfile.lock") as pip_file:
         pipfile_json = json.load(pip_file)
 
@@ -160,6 +156,7 @@ class TestUploadCommand(setuptools.Command):
 
         sys.exit()
 
+
 # Where the magic happens
 setuptools.setup(
     # METADATA
@@ -202,7 +199,7 @@ setuptools.setup(
     # # What commands to run
     cmdclass={
         "test_upload": TestUploadCommand,
-        "upload": UploadCommand,        
+        "upload": UploadCommand,
     },
     # # A dictionary mapping names of “extras” (optional features of your project) to strings or
     # # lists of strings specifying what other distributions must be installed to support those

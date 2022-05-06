@@ -43,6 +43,7 @@ def start_connection(host, port, request, client):
         message = libclient.Message(sel, sock, addr, request)
         sel.register(sock, events, data=message)
 
+
 def main():
 
     if len(sys.argv) == 6:
@@ -79,5 +80,6 @@ def main():
     finally:
         sel.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
