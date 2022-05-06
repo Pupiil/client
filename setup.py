@@ -1,16 +1,14 @@
-# Copyright (c) Facebook, Inc. and its affiliates. (http://www.facebook.com)
 # -*- coding: utf-8 -*-
 
 """
 setup.py
 
-This file implements the configuration for uploading the projec to PyPi
+This file implements the configuration for uploading the project to PyPi
 
 Reference::
     1. https://packaging.python.org/tutorials/packaging-projects/
     2. https://www.youtube.com/watch?v=GIF3LaRqgXo
 
-:copyright: (c) 2021 Facebook
 :license: MIT LICENSE
 """
 
@@ -23,7 +21,7 @@ import shutil
 
 # Setup variables. Change as needed
 NAME = "pupiilclient"
-VERSION = "0.0.9"
+VERSION = "0.0.10"
 AUTHOR = "Saif Ul Islam"
 AUTHOR_EMAIL = "saifulislam84210@gmail.com"
 LICENSE = "MIT"
@@ -69,7 +67,6 @@ except FileNotFoundError:
 
 def locked_requirements(section):
     """Look through the 'Pipfile.lock' to fetch requirements by section."""
-    print(os.path.abspath("."))
     with open("Pipfile.lock") as pip_file:
         pipfile_json = json.load(pip_file)
 
@@ -174,7 +171,7 @@ setuptools.setup(
     author_email=AUTHOR_EMAIL,
     # # Short description about the package
     description=DESCRIPTION,
-    # # Long descirption about the package
+    # # Long description about the package
     long_description=LONG_DESCRIPTION,
     # # Content type of the long description
     long_description_content_type=LONG_DESCRIPTION_CONTENT_TYPE,
@@ -185,7 +182,7 @@ setuptools.setup(
     # Codebase, Wheel, Egg Setup
     # Setuptools for finding other needed packages from Pipfile
     packages=setuptools.find_packages(where="src"),
-    # # Specifiy the package directory
+    # # Specify the package directory
     package_dir=PACKAGE_DIR,
     # # A string or list of strings specifying what other distributions need to be installed
     # # when this one is
