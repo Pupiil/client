@@ -1,5 +1,5 @@
 """
-pupiil_clients.__init__
+pupiil_client.__init__
 ~~~~~~~~~~~~~~~~~~
 
 - License: MIT LICENSE
