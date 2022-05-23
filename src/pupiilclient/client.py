@@ -32,32 +32,32 @@ def create_request(action, value):
 
 
 def start_connection(host, port, request, client):
-    for index in range(0, 10):
-        addr = (host, port)
-        print(f"starting connection to {addr}")
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.bind((client[0], client[1] + index))
-        sock.setblocking(False)
-        sock.connect_ex(addr)
-        events = selectors.EVENT_READ | selectors.EVENT_WRITE
-        message = libclient.Message(sel, sock, addr, request)
-        sel.register(sock, events, data=message)
+    addr = (host, port)
+    print(f"[CLIENT::CLIENT] Starting connection to {addr}")
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((client[0], client[1]))
+    sock.setblocking(False)
+    sock.connect_ex(addr)
+    events = selectors.EVENT_READ | selectors.EVENT_WRITE
+    message = libclient.Message(sel, sock, addr, request)
+    sel.register(sock, events, data=message)
 
 
 def main():
 
-    if len(sys.argv) == 6:
-        sys.argv.append("")
-    elif len(sys.argv) < 5:
-        print(
-            f"usage: {sys.argv[0]} <server_ip> <server_port> <client_ip> <client_port> <action> <value>"
-        )
-        sys.exit(1)
+    config = {
+        "server_ip": "127.42.0.1",
+        "server_port": 5201,
+        "client_ip": "127.1.1.1",
+        "client_port": 6000,
+        "action": "add",
+        "value": ""
+    }
 
-    host, port = sys.argv[1], int(sys.argv[2])
-    action, value = sys.argv[5], sys.argv[6]
+    host, port = config['server_ip'], config["server_port"]
+    action, value = config["action"], config["value"]
     request = create_request(action, value)
-    start_connection(host, port, request, (sys.argv[3], int(sys.argv[4])))
+    start_connection(host, port, request, (config["client_ip"], config["client_port"]))
 
     try:
         while True:
@@ -68,7 +68,7 @@ def main():
                     message.process_events(mask)
                 except Exception:
                     print(
-                        "main: error: exception for",
+                        "[CLIENT::CLIENT] Main: error: exception for",
                         f"{message.addr}:\n{traceback.format_exc()}",
                     )
                     message.close()
@@ -76,7 +76,7 @@ def main():
             if not sel.get_map():
                 break
     except KeyboardInterrupt:
-        print("caught keyboard interrupt, exiting")
+        print("[CLIENT::CLIENT] caught keyboard interrupt, exiting")
     finally:
         sel.close()
 
