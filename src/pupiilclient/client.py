@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import sys
 import socket
 import selectors
 import traceback
 
-from pupiilcommon import libclient, MacAuxClass
+import pupiilcommon
 
 sel = selectors.DefaultSelector()
 
@@ -21,7 +20,7 @@ def create_request(action, value):
         return dict(
             type="text/json",
             encoding="utf-8",
-            content=dict(action=action, value=MacAuxClass.MacAux().get_machine_info()),
+            content=dict(action=action, value=pupiilcommon.MacAuxClass.MacAux().get_machine_info()),
         )
     else:
         return dict(
@@ -39,7 +38,7 @@ def start_connection(host, port, request, client):
     sock.setblocking(False)
     sock.connect_ex(addr)
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    message = libclient.Message(sel, sock, addr, request)
+    message = pupiilcommon.LibClient.Message(sel, sock, addr, request)
     sel.register(sock, events, data=message)
 
 
@@ -47,9 +46,9 @@ def main():
 
     config = {
         "server_ip": "127.42.0.1",
-        "server_port": 5201,
+        "server_port": 5202,
         "client_ip": "127.1.1.1",
-        "client_port": 6000,
+        "client_port": 6005,
         "action": "add",
         "value": ""
     }
