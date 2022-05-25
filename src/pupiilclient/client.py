@@ -58,7 +58,7 @@ def recognition_to_client__server_thread(shared_state, shared_state_lock):
 
     config = {
         "host": "127.46.75.34",
-        "port": 6039,
+        "port": 6049,
     }
 
     lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -104,7 +104,7 @@ def client_to_server__client_thread(shared_state, shared_state_lock):
         "server_ip": "127.42.0.1",
         "server_port": 5205,
         "client_ip": "127.1.1.2",
-        "client_port": 6019,
+        "client_port": 6135,
         "action": "add",
         "value": "",
     }
@@ -150,9 +150,9 @@ def client_to_data__client_thread(shared_state, shared_state_lock):
 
     config = {
         "data_ip": "127.72.1.1",
-        "data_port": 6043,
+        "data_port": 6052,
         "client_ip": "127.1.1.1",
-        "client_port": 6099,
+        "client_port": 6206,
         "action": "",
         "value": "",
     }
