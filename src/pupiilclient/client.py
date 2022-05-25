@@ -48,7 +48,7 @@ def server_accept_wrapper(sel, sock):
     conn, addr = sock.accept()  # Should be ready to read
     print(f"Accepted connection from {addr}")
     conn.setblocking(False)
-    message = pupiilcommon.LibServer.Message(sel, conn, addr)
+    message = pupiilcommon.LibRecvFrame.Message(sel, conn, addr)
     sel.register(conn, selectors.EVENT_READ, data=message)
 
 
@@ -57,8 +57,8 @@ def recognition_to_client__server_thread(shared_state, shared_state_lock):
     recognition_to_client_sel = selectors.DefaultSelector()
 
     config = {
-        "host": "127.1.1.1",
-        "port": 6010,
+        "host": "127.46.75.34",
+        "port": 6039,
     }
 
     lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -69,6 +69,10 @@ def recognition_to_client__server_thread(shared_state, shared_state_lock):
     print(f"Listening on {(config['host'], config['port'])}")
     lsock.setblocking(False)
     recognition_to_client_sel.register(lsock, selectors.EVENT_READ, data=None)
+
+    print(
+        "\n[PUPIIL_CLIENT::CLIENT::recognition_to_client__server_thread] Connection Established\n"
+    )
 
     try:
         while True:
@@ -98,22 +102,24 @@ def client_to_server__client_thread(shared_state, shared_state_lock):
 
     config = {
         "server_ip": "127.42.0.1",
-        "server_port": 5202,
-        "client_ip": "127.1.1.1",
-        "client_port": 6008,
+        "server_port": 5205,
+        "client_ip": "127.1.1.2",
+        "client_port": 6019,
         "action": "add",
         "value": "",
     }
 
-    host, port = config["server_ip"], config["server_port"]
-    action, value = config["action"], config["value"]
-    request = client_create_request(action, value)
+    request = client_create_request(config["action"], config["value"])
     client_start_connection(
         client_to_server_sel,
-        host,
-        port,
+        config["server_ip"],
+        config["server_port"],
         request,
         (config["client_ip"], config["client_port"]),
+    )
+
+    print(
+        "\n[PUPIIL_CLIENT::CLIENT::client_to_server__client_thread] Connection Established\n"
     )
 
     try:
@@ -144,14 +150,14 @@ def client_to_data__client_thread(shared_state, shared_state_lock):
 
     config = {
         "data_ip": "127.72.1.1",
-        "data_port": 6000,
+        "data_port": 6043,
         "client_ip": "127.1.1.1",
-        "client_port": 6009,
+        "client_port": 6099,
         "action": "",
         "value": "",
     }
 
-    host, port = config["server_ip"], config["server_port"]
+    host, port = config["data_ip"], config["data_port"]
     action, value = config["action"], config["value"]
     request = client_create_request(action, value)
     client_start_connection(
@@ -160,6 +166,10 @@ def client_to_data__client_thread(shared_state, shared_state_lock):
         port,
         request,
         (config["client_ip"], config["client_port"]),
+    )
+
+    print(
+        "\n[PUPIIL_CLIENT::CLIENT::client_to_data__client_thread] Connection Established\n"
     )
 
     try:
