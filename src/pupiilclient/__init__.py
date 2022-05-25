@@ -5,4 +5,4 @@ pupiil_client.__init__
 - License: MIT LICENSE
 """
 
-from . import client
+from . import client  # noqa: F401

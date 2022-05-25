@@ -8,6 +8,12 @@ cffi = "==1.15.0"
 cryptography = "==37.0.2"
 netifaces = "==0.11.0"
 pyopenssl = "==22.0.0"
+pillow = "*"
+face-recognition-models = "*"
+imutils = "*"
+dlib = "*"
+face-recognition = "*"
+opencv-python = "*"
 
 [dev-packages]
 twine = "*"
